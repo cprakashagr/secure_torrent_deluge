@@ -1,0 +1,22 @@
+version: '2.3'
+
+services:
+    deluge:
+        image: deluge
+        build: ./deluge/docker
+        restart: always
+        ports:
+            - 8112:8112
+        volumes:
+            - ./data:/data
+            - ./torrents:/torrent
+            - ./startServerWeb.sh:/startServerWeb.sh
+        entrypoint: ["/bin/bash", "/startServerWeb.sh"]
+    tor:
+        image: tor
+        build: ./tor/docker
+        restart: always
+        ports:
+            - 9050:9050
+        volumes:
+            - ./torsocks.conf:/etc/tor/torsocks.conf
